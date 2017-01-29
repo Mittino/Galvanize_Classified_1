@@ -41,10 +41,27 @@ router.post('/', function(req,res,next){
     }).returning(['id', 'title', 'description', 'price', 'item_image'])
     .then((result) => {
       console.log('result', result[0]);
-
       res.send(result[0]);
     }).catch((err) =>{
       res.send('error posting classified');
+    });
+});
+
+router.patch('/:id', function(req,res,next){
+  knex('classifieds')
+    .where({
+      id:req.params.id
+    }).first().update({
+      title:req.body.title,
+      description: req.body.description,
+      price:req.body.price,
+      item_image:req.body.item_image,
+    }).returning(['id', 'title', 'description', 'price', 'item_image'])
+    .then((result) => {
+      console.log('patchresult', result[0]);
+      res.send(result[0]);
+    }).catch((err) =>{
+      res.send('error patching');
     });
 });
 
