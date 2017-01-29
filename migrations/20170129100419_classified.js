@@ -4,10 +4,10 @@ exports.up = function(knex, Promise) {
     table.increments().notNullable();
     table.string('title').notNullable();
     table.string('description').notNullable();
-    table.bigInteger('price').notNullable();
-    table.text('item_image').notNullable();
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.decimal('price', 2, 2).notNullable();
+    table.string('item_image').notNullable();
+    table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable();
+    table.timestamp('updated_at').defaultTo(knex.fn.now()).notNullable();
   });
 };
 
