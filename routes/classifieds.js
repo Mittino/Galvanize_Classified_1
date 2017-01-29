@@ -6,7 +6,9 @@ const express = require('express');
 const router = express.Router();
 
 const knex = require('../knex');
-//router.use(knex);
+
+const bodyParser = require('body-parser');
+
 
 router.get('/', function(req,res,next){
   knex('classifieds').select('id', 'title', 'description', 'price', 'item_image')
@@ -26,6 +28,24 @@ router.get('/:id', function(req,res,next){
   }) .catch((err) =>{
     res.send('error getting classifieds');
   });
+});
+
+router.post('/', function(req,res,next){
+  console.log('body',  req.body);
+  knex('classifieds')
+    .insert({
+      title:req.body.title,
+      description:req.body.description,
+      price:req.body.price,
+      item_image:req.body.item_image,
+    }).returning(['id', 'title', 'description', 'price', 'item_image'])
+    .then((result) => {
+      console.log('result', result[0]);
+
+      res.send(result[0]);
+    }).catch((err) =>{
+      res.send('error posting classified');
+    });
 });
 
 
