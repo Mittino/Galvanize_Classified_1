@@ -18,5 +18,15 @@ router.get('/', function(req,res,next){
   });
 });
 
+router.get('/:id', function(req,res,next){
+  knex('classifieds').where('id', req.params.id).first().select('id', 'title', 'description', 'price', 'item_image')
+  .then((results) => {
+    console.log(results);
+    res.send(results);
+  }) .catch((err) =>{
+    res.send('error getting classifieds');
+  });
+});
+
 
 module.exports = router;
